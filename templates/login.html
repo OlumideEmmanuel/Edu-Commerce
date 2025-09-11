@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - EduCommerce</title>
+  <title>Sign Up - EduCommerce</title>
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -23,20 +23,20 @@
         <li><a href="{{ url_for('services') }}">Services</a></li>
         <li><a href="{{ url_for('about') }}">About Us</a></li>
         <li><a href="{{ url_for('contact') }}">Contact</a></li>
-        <li><a href="{{ url_for('signup') }}" class="signup-btn">Sign Up</a></li>
+        <li><a href="{{ url_for('login') }}" class="login-btn">Login</a></li>
       </ul>
     </nav>
   </header>
 
   <!-- Page Header -->
   <section class="page-header">
-    <h1>Welcome Back</h1>
-    <p>Log in to your account and continue learning!</p>
+    <h1>Create an Account</h1>
+    <p>Sign up to start learning with EduCommerce!</p>
   </section>
 
-  <!-- Login Form Section -->
-  <section class="login-page">
-    <div class="login-container">
+  <!-- Signup Form Section -->
+  <section class="signup-page">
+    <div class="signup-container">
 
       <!-- Flash Messages -->
       {% with messages = get_flashed_messages(with_categories=true) %}
@@ -49,26 +49,29 @@
         {% endif %}
       {% endwith %}
 
-      <form class="login-form" method="POST" action="{{ url_for('login') }}">
-        <h2>Login</h2>
+      <form id="signup-form" class="signup-form" method="POST" action="{{ url_for('signup') }}">
+        <h2>Sign Up</h2>
+        <input type="text" name="username" placeholder="Username" required>
         <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-        <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+        <button type="submit">Sign Up</button>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
       </form>
+
+      <!-- Optional: JS message -->
+      <div id="signup-message" style="margin-top: 10px; color: red;"></div>
+
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
     <div class="footer-container">
-      <!-- Column 1 -->
       <div class="footer-col">
         <h3>EduCommerce</h3>
         <p>Learn anytime, anywhere. Join thousands of learners and upgrade your skills with our trusted online courses.</p>
       </div>
-
-      <!-- Column 2 -->
       <div class="footer-col">
         <h4>Quick Links</h4>
         <ul>
@@ -78,8 +81,6 @@
           <li><a href="{{ url_for('contact') }}">Contact</a></li>
         </ul>
       </div>
-
-      <!-- Column 3 -->
       <div class="footer-col">
         <h4>Contact Us</h4>
         <p>Email: olumideemmanuel17@gmail.com</p>
@@ -92,12 +93,13 @@
         </div>
       </div>
     </div>
-    
 
     <div class="footer-bottom">
       <p>&copy; 2025 EduCommerce. All rights reserved.</p>
     </div>
   </footer>
 
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

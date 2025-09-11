@@ -281,14 +281,43 @@
 </body>
 
 <script>
-  async function loadCourses() {
-    let res = await fetch("https://educommerce-backend.onrender.com/api/courses");
-    let courses = await res.json();
+  // ✅ Signup Example
+  async function signup(formData) {
+    try {
+      let res = await fetch("https://educommerce-backend.onrender.com/signup", {
+        method: "POST",
+        body: formData
+      });
 
-    let container = document.getElementById("courses");
-    container.innerHTML = courses.map(c => `<li>${c.title} - ${c.price}</li>`).join("");
+      if (!res.ok) throw new Error("Signup failed");
+
+      let data = await res.json();
+      console.log("Signup Success:", data);
+    } catch (err) {
+      console.error(err.message);
+    }
   }
 
+  // ✅ Load Courses Example
+  async function loadCourses() {
+    try {
+      let res = await fetch("https://educommerce-backend.onrender.com/api/courses");
+      
+      if (!res.ok) throw new Error("Failed to fetch courses");
+
+      let courses = await res.json();
+
+      let container = document.getElementById("courses");
+      container.innerHTML = courses
+        .map(c => `<li>${c.title} - ₦${c.price}</li>`)
+        .join("");
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  // Auto-load courses on page load
   loadCourses();
 </script>
+
 </html>

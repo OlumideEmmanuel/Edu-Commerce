@@ -1,4 +1,3 @@
-
 const mobileMenu = document.getElementById('mobile-menu');
 const navbar = document.getElementById('navbar');
 
@@ -6,8 +5,7 @@ mobileMenu.addEventListener('click', () => {
   navbar.classList.toggle('active');
 });
 
-
-// Carousel & Animation
+// ---------------- Carousel & Animation ---------------- //
 const slider = document.querySelector('.testimonial-slider');
 const cards = document.querySelectorAll('.testimonial-card');
 let currentIndex = 0;
@@ -29,21 +27,19 @@ setInterval(() => {
   showSlide(currentIndex);
 }, 5000);
 
-// Optional: Fade-in when scrolling into view
+// Fade-in animation
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('active');
-      observer.unobserve(entry.target); // animate once
+      observer.unobserve(entry.target);
     }
   });
 }, { threshold: 0.2 });
 
 cards.forEach(card => observer.observe(card));
 
-
-
-// Modal Functionality
+// ---------------- Modal Functionality ---------------- //
 document.querySelectorAll('.instructor-card').forEach(card => {
   card.addEventListener('click', () => {
     const modalId = card.getAttribute('data-modal');
@@ -63,5 +59,70 @@ window.addEventListener('click', (e) => {
   }
 });
 
+// ---------------- Backend API Integration ---------------- //
+const API_BASE = "https://educommerce-backend.onrender.com"; // ✅ Render backend
 
+// Signup
+async function handleSignup(e) {
+  e.preventDefault();
+  const formData = new FormData(e.target);
 
+  try {
+    const res = await fetch(`${API_BASE}/signup`, {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.text();
+    alert(data);
+  } catch (err) {
+    console.error(err);
+    alert("Signup failed. Please try again.");
+  }
+}
+
+// Login
+async function handleLogin(e) {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+
+  try {
+    const res = await fetch(`${API_BASE}/login`, {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.text();
+    alert(data);
+  } catch (err) {
+    console.error(err);
+    alert("Login failed. Please try again.");
+  }
+}
+
+// Load Courses
+async function loadCourses() {
+  try {
+    let res = await fetch(`${API_BASE}/api/courses`);
+    let courses = await res.json();
+
+    let container = document.getElementById("courses");
+    if (container) {
+      container.innerHTML = courses.map(c => `<li>${c.title} - ${c.price}</li>`).join("");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Auto load courses if container exists
+if (document.getElementById("courses")) {
+  loadCourses();
+}
+
+// Attach event listeners if forms exist
+const signupForm = document.getElementById("signup-form");
+if (signupForm) signupForm.addEventListener("submit", handleSignup);
+
+const loginForm = document.getElementById("login-form");
+if (loginForm) loginForm.addEventListener("submit", handleLogin);
