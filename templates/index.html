@@ -58,7 +58,6 @@
       <div class="container">
         <h2>Popular Courses</h2>
         <div class="courses-grid">
-          <!-- Course Card 1 -->
           <div class="course-card">
             <img src="{{ url_for('static', filename='assets/course.svg') }}" alt="Course 1">
             <h3>Web Development Bootcamp</h3>
@@ -66,7 +65,6 @@
             <a href="{{ url_for('login') }}" class="btn-primary">Enroll Now</a>
           </div>
 
-          <!-- Course Card 2 -->
           <div class="course-card">
             <img src="{{ url_for('static', filename='assets/course.svg') }}" alt="Course 2">
             <h3>Data Science with Python</h3>
@@ -74,7 +72,6 @@
             <a href="{{ url_for('login') }}" class="btn-primary">Enroll Now</a>
           </div>
 
-          <!-- Course Card 3 -->
           <div class="course-card">
             <img src="{{ url_for('static', filename='assets/course.svg') }}" alt="Course 3">
             <h3>UI/UX Design Fundamentals</h3>
@@ -90,28 +87,24 @@
       <div class="container">
         <h2>Explore Categories</h2>
         <div class="categories-grid">
-          <!-- Category Card 1 -->
           <div class="category-card">
             <img src="{{ url_for('static', filename='assets/coding.svg') }}" alt="Programming">
             <h3>Programming</h3>
             <p>Master coding skills and build web & mobile applications.</p>
           </div>
 
-          <!-- Category Card 2 -->
           <div class="category-card">
             <img src="{{ url_for('static', filename='assets/design.svg') }}" alt="Design">
             <h3>Design</h3>
             <p>Learn UI/UX, graphic, and creative design fundamentals.</p>
           </div>
 
-          <!-- Category Card 3 -->
           <div class="category-card">
             <img src="{{ url_for('static', filename='assets/data-science.svg') }}" alt="Data Science">
             <h3>Data Science</h3>
             <p>Analyze data and create insights using Python and tools.</p>
           </div>
 
-          <!-- Category Card 4 -->
           <div class="category-card">
             <img src="{{ url_for('static', filename='assets/marketing.svg') }}" alt="Marketing">
             <h3>Marketing</h3>
@@ -137,7 +130,6 @@
       <div class="container">
         <h2>What Our Students Say</h2>
         <div class="testimonial-slider">
-          <!-- Testimonial 1 -->
           <div class="testimonial-card">
             <img src="{{ url_for('static', filename='assets/student1.svg') }}" alt="Student 1">
             <p>"EduCommerce helped me land my first web developer job. The courses are amazing!"</p>
@@ -145,7 +137,6 @@
             <span>Frontend Developer</span>
           </div>
 
-          <!-- Testimonial 2 -->
           <div class="testimonial-card">
             <img src="{{ url_for('static', filename='assets/student2.svg') }}" alt="Student 2">
             <p>"The data science course gave me the skills I needed to start my career in analytics."</p>
@@ -153,7 +144,6 @@
             <span>Data Analyst</span>
           </div>
 
-          <!-- Testimonial 3 -->
           <div class="testimonial-card">
             <img src="{{ url_for('static', filename='assets/student3.svg') }}" alt="Student 3">
             <p>"I loved the design courses! The projects were hands-on and very practical."</p>
@@ -203,7 +193,6 @@
         <p class="section-subtitle">Stay updated with our insights on education, technology, and e-learning.</p>
 
         <div class="blog-grid">
-          <!-- Blog Card 1 -->
           <div class="blog-card">
             <img src="{{ url_for('static', filename='assets/blog.svg') }}" alt="Blog 1">
             <div class="blog-content">
@@ -213,7 +202,6 @@
             </div>
           </div>
 
-          <!-- Blog Card 2 -->
           <div class="blog-card">
             <img src="{{ url_for('static', filename='assets/blog.svg') }}" alt="Blog 2">
             <div class="blog-content">
@@ -223,7 +211,6 @@
             </div>
           </div>
 
-          <!-- Blog Card 3 -->
           <div class="blog-card">
             <img src="{{ url_for('static', filename='assets/blog.svg') }}" alt="Blog 3">
             <div class="blog-content">
@@ -240,13 +227,11 @@
   <!-- Footer Section -->
   <footer>
     <div class="footer-container">
-      <!-- Column 1 -->
       <div class="footer-col">
         <h3>EduCommerce</h3>
         <p>Learn anytime, anywhere. Join thousands of learners and upgrade your skills with our trusted online courses.</p>
       </div>
 
-      <!-- Column 2 -->
       <div class="footer-col">
         <h4>Quick Links</h4>
         <ul>
@@ -257,7 +242,6 @@
         </ul>
       </div>
 
-      <!-- Column 3 -->
       <div class="footer-col">
         <h4>Contact Us</h4>
         <p>Email: olumideemmanuel17@gmail.com</p>
@@ -278,46 +262,37 @@
 
   <!-- JS -->
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+  <script>
+    async function signup(formData) {
+      try {
+        let res = await fetch("/signup", {  // Use relative path for Render deployment
+          method: "POST",
+          body: formData
+        });
+        if (!res.ok) throw new Error("Signup failed");
+        let data = await res.json();
+        console.log("Signup Success:", data);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+
+    async function loadCourses() {
+      try {
+        let res = await fetch("/api/courses");  // Relative API path
+        if (!res.ok) throw new Error("Failed to fetch courses");
+        let courses = await res.json();
+        let container = document.getElementById("courses");
+        container.innerHTML = courses
+          .map(c => `<li>${c.title} - ₦${c.price}</li>`)
+          .join("");
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+
+    loadCourses();
+  </script>
 </body>
-
-<script>
-  // ✅ Signup Example
-  async function signup(formData) {
-    try {
-      let res = await fetch("https://educommerce-backend.onrender.com/signup", {
-        method: "POST",
-        body: formData
-      });
-
-      if (!res.ok) throw new Error("Signup failed");
-
-      let data = await res.json();
-      console.log("Signup Success:", data);
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  // ✅ Load Courses Example
-  async function loadCourses() {
-    try {
-      let res = await fetch("https://educommerce-backend.onrender.com/api/courses");
-      
-      if (!res.ok) throw new Error("Failed to fetch courses");
-
-      let courses = await res.json();
-
-      let container = document.getElementById("courses");
-      container.innerHTML = courses
-        .map(c => `<li>${c.title} - ₦${c.price}</li>`)
-        .join("");
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  // Auto-load courses on page load
-  loadCourses();
-</script>
-
 </html>

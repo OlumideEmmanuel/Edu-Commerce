@@ -15,7 +15,7 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
-CORS(app)  # Allow frontend (Vercel) to call backend (Render)
+CORS(app)  # Allow frontend to call backend
 
 # ---------------- User Loader ---------------- #
 @login_manager.user_loader
@@ -74,24 +74,18 @@ def signup():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
-        # Check if passwords match
         if password != confirm_password:
             flash("Passwords do not match. Please try again.", 'danger')
             return redirect(url_for('signup'))
 
-        # Check if username already exists
-        existing_username = User.query.filter_by(username=username).first()
-        if existing_username:
+        if User.query.filter_by(username=username).first():
             flash('Username already taken. Please choose another.', 'warning')
             return redirect(url_for('signup'))
 
-        # Check if email already exists
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
+        if User.query.filter_by(email=email).first():
             flash('Email already registered. Please login.', 'warning')
             return redirect(url_for('login'))
 
-        # Hash password and create new user
         hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
         user = User(username=username, email=email, password=hashed_pw)
         db.session.add(user)
