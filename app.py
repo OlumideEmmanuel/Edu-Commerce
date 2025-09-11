@@ -3,11 +3,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_cors import CORS
+import os
 
 # ---------------- Initialize App ---------------- #
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key_here'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your_secret_key_here')  # safer for deployment
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///site.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # prevent warning
 
 # ---------------- Initialize Extensions ---------------- #
 db = SQLAlchemy(app)
@@ -135,8 +137,12 @@ def logout():
 # ---------------- API Routes ---------------- #
 @app.route("/api/courses")
 def api_courses():
-    courses = Course.query.all()
-    return jsonify([{"id": c.id, "title": c.title, "price": c.price} for c in courses])
+    # Ensure table exists before querying
+    try:
+        courses = Course.query.all()
+        return jsonify([{"id": c.id, "title": c.title, "price": c.price} for c in courses])
+    except Exception as e:
+        return jsonify({"error": "Database table not found. Make sure to create the table first.", "details": str(e)}), 500
 
 @app.route("/api/user")
 @login_required
@@ -150,5 +156,5 @@ def api_user():
 # ---------------- Run App ---------------- #
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()  # ensures DB tables exist
+        db.create_all()  # ensures DB tables exist before any requests
     app.run(debug=True)

@@ -3,11 +3,20 @@ $primary-color: #ff6600;
 $secondary-color: #333;
 $light-gray: #f9f9f9;
 
-*{
-  a{
-    text-decoration: none;
-  }
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  color: $secondary-color;
+  background: #fff;
+  line-height: 1.6;
+}
+
 /* Navbar */
 .navbar {
   display: flex;
@@ -17,13 +26,14 @@ $light-gray: #f9f9f9;
   background: white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 
-  .logo {
+  .logo a {
     font-size: 22px;
     font-weight: bold;
     color: $primary-color;
+    text-decoration: none;
   }
 
-  ul {
+  nav ul {
     display: flex;
     list-style: none;
 
@@ -42,12 +52,14 @@ $light-gray: #f9f9f9;
         }
       }
 
-      .signup-btn {
+      .signup-btn,
+      .login-btn {
         padding: 8px 16px;
         background: $primary-color;
         color: white;
         border-radius: 8px;
         font-weight: bold;
+        transition: background 0.3s;
 
         &:hover {
           background: darken($primary-color, 10%);
@@ -74,13 +86,14 @@ $light-gray: #f9f9f9;
   }
 }
 
-/* Login Form */
-.login-page {
-  padding: 60px 10%;
+/* Signup Form */
+.signup-page {
   display: flex;
   justify-content: center;
+  padding: 50px 20px;
+  background: $light-gray;
 
-  .login-container {
+  .signup-container {
     background: white;
     padding: 40px;
     border-radius: 12px;
@@ -88,13 +101,13 @@ $light-gray: #f9f9f9;
     width: 100%;
     max-width: 400px;
 
-    .login-form {
+    .signup-form {
       display: flex;
       flex-direction: column;
 
       h2 {
-        margin-bottom: 20px;
         text-align: center;
+        margin-bottom: 20px;
         color: $secondary-color;
       }
 
@@ -142,9 +155,30 @@ $light-gray: #f9f9f9;
         }
       }
     }
+
+    .flash-message {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+
+      &.success {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      &.danger {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      &.warning {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+    }
   }
 }
-
 
 /* Footer */
 footer {
