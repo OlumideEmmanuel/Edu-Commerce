@@ -69,7 +69,13 @@ def signup():
             flash("Passwords do not match. Please try again.", 'danger')
             return redirect(url_for('signup'))
 
-        # Check if email already exists
+        # ✅ Check if username already exists
+        existing_username = User.query.filter_by(username=username).first()
+        if existing_username:
+            flash('Username already taken. Please choose another.', 'warning')
+            return redirect(url_for('signup'))
+
+        # ✅ Check if email already exists
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash('Email already registered. Please login.', 'warning')
