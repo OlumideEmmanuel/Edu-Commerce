@@ -1,7 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, flash, request
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_cors import CORS
 
 # ---------------- Initialize App ---------------- #
 app = Flask(__name__)
@@ -14,6 +15,7 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+CORS(app)  # Allow frontend (Vercel) to call backend (Render)
 
 # ---------------- User Loader ---------------- #
 @login_manager.user_loader
@@ -29,6 +31,14 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    price = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"Course('{self.title}', {self.price})"
 
 # ---------------- Routes ---------------- #
 @app.route("/")
@@ -69,13 +79,13 @@ def signup():
             flash("Passwords do not match. Please try again.", 'danger')
             return redirect(url_for('signup'))
 
-        # ✅ Check if username already exists
+        # Check if username already exists
         existing_username = User.query.filter_by(username=username).first()
         if existing_username:
             flash('Username already taken. Please choose another.', 'warning')
             return redirect(url_for('signup'))
 
-        # ✅ Check if email already exists
+        # Check if email already exists
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash('Email already registered. Please login.', 'warning')
@@ -128,6 +138,23 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('index'))
 
+# ---------------- API Routes ---------------- #
+@app.route("/api/courses")
+def api_courses():
+    courses = Course.query.all()
+    return jsonify([{"id": c.id, "title": c.title, "price": c.price} for c in courses])
+
+@app.route("/api/user")
+@login_required
+def api_user():
+    return jsonify({
+        "id": current_user.id,
+        "username": current_user.username,
+        "email": current_user.email
+    })
+
 # ---------------- Run App ---------------- #
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()  # ensures DB tables exist
     app.run(debug=True)
