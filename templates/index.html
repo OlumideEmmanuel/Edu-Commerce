@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduCommerce</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  >
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="{{ url_for('index') }}">EduCommerce</a>
+      </div>
+
+      <!-- Hamburger / Mobile Menu -->
+      <div class="mobile-menu" id="mobile-menu">&#9776;</div>
+
+      <!-- Navbar Links -->
+      <nav class="navbar" id="navbar">
+        <ul>
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('courses') }}">Courses</a></li>
+          <li><a href="{{ url_for('services') }}">Services</a></li>
+          <li><a href="{{ url_for('about') }}">About Us</a></li>
+          <li><a href="{{ url_for('contact') }}">Contact</a></li>
+          <li><a href="{{ url_for('signup') }}" class="signup-btn">Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-container">
+        <div class="hero-text">
+          <h1>Learn, Grow, and Achieve with EduCommerce</h1>
+          <p>Explore courses from top educators and start your learning journey today!</p>
+          <a href="{{ url_for('signup') }}" class="btn-primary">Get Started</a>
+        </div>
+        <div class="hero-image">
+          <img src="{{ url_for('static', filename='assets/hero-image.svg') }}" alt="Learning illustration">
+        </div>
+      </div>
+    </section>
+
+    <!-- Popular Courses Section -->
+    <section class="popular-courses">
+      <div class="container">
+        <h2>Popular Courses</h2>
+        <div class="courses-grid">
+          <!-- Course Card 1 -->
+          <div class="course-card">
+            <img src="{{ url_for('static', filename='assets/course.svg') }}" alt="Course 1">
+            <h3>Web Development Bootcamp</h3>
+            <p>Learn HTML, CSS, and JavaScript to build modern websites.</p>
+            <a href="{{ url_for('login') }}" class="btn-primary">Enroll Now</a>
+          </div>
+
+          <!-- Course Card 2 -->
+          <div class="course-card">
+            <img src="{{ url_for('static', filename='assets/course.svg') }}" alt="Course 2">
+            <h3>Data Science with Python</h3>
+            <p>Analyze data and build predictive models using Python.</p>
+            <a href="{{ url_for('login') }}" class="btn-primary">Enroll Now</a>
+          </div>
+
+          <!-- Course Card 3 -->
+          <div class="course-card">
+            <img src="{{ url_for('static', filename='assets/course.svg') }}" alt="Course 3">
+            <h3>UI/UX Design Fundamentals</h3>
+            <p>Master design principles and create stunning interfaces.</p>
+            <a href="{{ url_for('login') }}" class="btn-primary">Enroll Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+      <div class="container">
+        <h2>Explore Categories</h2>
+        <div class="categories-grid">
+          <!-- Category Card 1 -->
+          <div class="category-card">
+            <img src="{{ url_for('static', filename='assets/coding.svg') }}" alt="Programming">
+            <h3>Programming</h3>
+            <p>Master coding skills and build web & mobile applications.</p>
+          </div>
+
+          <!-- Category Card 2 -->
+          <div class="category-card">
+            <img src="{{ url_for('static', filename='assets/design.svg') }}" alt="Design">
+            <h3>Design</h3>
+            <p>Learn UI/UX, graphic, and creative design fundamentals.</p>
+          </div>
+
+          <!-- Category Card 3 -->
+          <div class="category-card">
+            <img src="{{ url_for('static', filename='assets/data-science.svg') }}" alt="Data Science">
+            <h3>Data Science</h3>
+            <p>Analyze data and create insights using Python and tools.</p>
+          </div>
+
+          <!-- Category Card 4 -->
+          <div class="category-card">
+            <img src="{{ url_for('static', filename='assets/marketing.svg') }}" alt="Marketing">
+            <h3>Marketing</h3>
+            <p>Boost your business knowledge with digital marketing skills.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call-to-Action Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Start Learning Today!</h2>
+          <p>Join thousands of students and gain new skills to boost your career.</p>
+          <a href="{{ url_for('signup') }}" class="btn-primary">Sign Up Now</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <div class="container">
+        <h2>What Our Students Say</h2>
+        <div class="testimonial-slider">
+          <!-- Testimonial 1 -->
+          <div class="testimonial-card">
+            <img src="{{ url_for('static', filename='assets/student1.svg') }}" alt="Student 1">
+            <p>"EduCommerce helped me land my first web developer job. The courses are amazing!"</p>
+            <h4>Jane Doe</h4>
+            <span>Frontend Developer</span>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="testimonial-card">
+            <img src="{{ url_for('static', filename='assets/student2.svg') }}" alt="Student 2">
+            <p>"The data science course gave me the skills I needed to start my career in analytics."</p>
+            <h4>John Smith</h4>
+            <span>Data Analyst</span>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="testimonial-card">
+            <img src="{{ url_for('static', filename='assets/student3.svg') }}" alt="Student 3">
+            <p>"I loved the design courses! The projects were hands-on and very practical."</p>
+            <h4>Mary Johnson</h4>
+            <span>UI/UX Designer</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Instructors Section -->
+    <section class="instructors">
+      <div class="container">
+        <h2>Meet Our Instructors</h2>
+        <div class="instructors-grid">
+          <div class="instructor-card" data-modal="modal1">
+            <img src="{{ url_for('static', filename='assets/student1.svg') }}" alt="Instructor 1">
+            <h3>Dr. Aisha Bello</h3>
+            <p>Data Science Expert</p>
+          </div>
+
+          <div class="instructor-card" data-modal="modal2">
+            <img src="{{ url_for('static', filename='assets/student2.svg') }}" alt="Instructor 2">
+            <h3>John Adewale</h3>
+            <p>Web Development Mentor</p>
+          </div>
+
+          <div class="instructor-card" data-modal="modal3">
+            <img src="{{ url_for('static', filename='assets/student3.svg') }}" alt="Instructor 3">
+            <h3>Sandra Okafor</h3>
+            <p>UI/UX Designer</p>
+          </div>
+
+          <div class="instructor-card" data-modal="modal4">
+            <img src="{{ url_for('static', filename='assets/student1.svg') }}" alt="Instructor 4">
+            <h3>Prof. Tunde Alabi</h3>
+            <p>Cybersecurity Specialist</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog">
+      <div class="container">
+        <h2 class="section-title">Latest Articles</h2>
+        <p class="section-subtitle">Stay updated with our insights on education, technology, and e-learning.</p>
+
+        <div class="blog-grid">
+          <!-- Blog Card 1 -->
+          <div class="blog-card">
+            <img src="{{ url_for('static', filename='assets/blog.svg') }}" alt="Blog 1">
+            <div class="blog-content">
+              <h3>5 Tips to Succeed in Online Learning</h3>
+              <p>Discover how to stay motivated and productive while taking online courses.</p>
+              <a href="#" class="read-more">Read More →</a>
+            </div>
+          </div>
+
+          <!-- Blog Card 2 -->
+          <div class="blog-card">
+            <img src="{{ url_for('static', filename='assets/blog.svg') }}" alt="Blog 2">
+            <div class="blog-content">
+              <h3>The Future of EduCommerce</h3>
+              <p>Explore how e-learning and commerce are merging to shape the future of education.</p>
+              <a href="#" class="read-more">Read More →</a>
+            </div>
+          </div>
+
+          <!-- Blog Card 3 -->
+          <div class="blog-card">
+            <img src="{{ url_for('static', filename='assets/blog.svg') }}" alt="Blog 3">
+            <div class="blog-content">
+              <h3>Top 10 Skills for 2025</h3>
+              <p>Find out the most in-demand skills you should start learning today.</p>
+              <a href="#" class="read-more">Read More →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer-container">
+      <!-- Column 1 -->
+      <div class="footer-col">
+        <h3>EduCommerce</h3>
+        <p>Learn anytime, anywhere. Join thousands of learners and upgrade your skills with our trusted online courses.</p>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('courses') }}">Courses</a></li>
+          <li><a href="{{ url_for('about') }}">About Us</a></li>
+          <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <p>Email: olumideemmanuel17@gmail.com</p>
+        <p>Phone: +234 904 571 7598</p>
+        <div class="socials">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 EduCommerce. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

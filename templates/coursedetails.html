@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Details - EduCommerce</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/coursesdetails.css') }}">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <a href="{{ url_for('index') }}">
+      <div class="logo">EduCommerce</div>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('courses') }}">Courses</a></li>
+        <li><a href="{{ url_for('services') }}">Services</a></li>
+        <li><a href="{{ url_for('about') }}">About Us</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        <li><a href="{{ url_for('signup') }}" class="signup-btn">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Course Details Section -->
+  <section class="course-details">
+    <div class="course-details-container">
+      <!-- Left: Course image -->
+      <div class="course-media">
+        <img src="{{ url_for('static', filename='assets/course1.jpg') }}" alt="Course Preview">
+      </div>
+
+      <!-- Right: Course info -->
+      <div class="course-info">
+        <h1>Web Development Bootcamp</h1>
+        <p class="instructor">Instructor: John Doe</p>
+        <p class="description">
+          Learn how to build responsive websites from scratch using HTML, CSS, JavaScript, and React.
+          This course covers everything from basics to advanced concepts with real-world projects.
+        </p>
+        <span class="price">$50</span>
+        <button class="enroll-btn">Enroll Now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer-container">
+      <!-- Column 1 -->
+      <div class="footer-col">
+        <h3>EduCommerce</h3>
+        <p>Learn anytime, anywhere. Join thousands of learners and upgrade your skills with our trusted online courses.</p>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('courses') }}">Courses</a></li>
+          <li><a href="{{ url_for('about') }}">About Us</a></li>
+          <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <p>Email: olumideemmanuel17@gmail.com</p>
+        <p>Phone: +234 904 571 7598</p>
+        <div class="socials">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 EduCommerce. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
