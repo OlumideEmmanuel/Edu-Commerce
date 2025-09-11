@@ -279,4 +279,16 @@
   <!-- JS -->
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
+
+<script>
+  async function loadCourses() {
+    let res = await fetch("https://educommerce-backend.onrender.com/api/courses");
+    let courses = await res.json();
+
+    let container = document.getElementById("courses");
+    container.innerHTML = courses.map(c => `<li>${c.title} - ${c.price}</li>`).join("");
+  }
+
+  loadCourses();
+</script>
 </html>
