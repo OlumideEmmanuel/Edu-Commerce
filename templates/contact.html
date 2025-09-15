@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us - EduCommerce</title>
-    <link rel="icon" type="image/svg" href="/static/assets/hero-image 1.svg">
+  <link rel="icon" type="image/svg" href="/static/assets/hero-image 1.svg">
 
-  
   <!-- Font Awesome for Social Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -15,80 +14,94 @@
 </head>
 <body>
 
-   <!-- Header -->
-  <header>
-    <div class="container">
-      <div class="logo">
-        <a href="{{ url_for('index') }}">EduCommerce</a>
-      </div>
-
-      <!-- Hamburger / Mobile Menu -->
-      <div class="mobile-menu" id="mobile-menu">&#9776;</div>
-
-      <!-- Navbar Links -->
-      <nav class="navbar" id="navbar">
-        <ul>
-          <li><a href="{{ url_for('index') }}">Home</a></li>
-          <li><a href="{{ url_for('courses') }}">Courses</a></li>
-          <li><a href="{{ url_for('services') }}">Services</a></li>
-         <li><a href="{{ url_for('contact') }}">Contact</a></li>
-          <li><a href="{{ url_for('signup') }}" class="signup-btn">Sign Up</a></li>
-        </ul>
-      </nav>
+<!-- Header -->
+<header>
+  <div class="container">
+    <div class="logo">
+      <a href="{{ url_for('index') }}">EduCommerce</a>
     </div>
-  </header>
 
-  <!-- Page Header -->
-  <section class="page-header">
-    <h1>Contact Us</h1>
-    <p>We’d love to hear from you! Fill out the form below or reach us directly.</p>
-  </section>
+    <!-- Hamburger / Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">&#9776;</div>
 
-  <!-- Contact Section -->
-  <section class="contact-page">
-    <div class="contact-container">
-      
-      <!-- Contact Form -->
-      <div class="contact-form">
-        <h2>Send Us a Message</h2>
-        <form method="POST" action="{{ url_for('contact') }}">
-          <input type="text" name="name" placeholder="Your Name" required>
-          <input type="email" name="email" placeholder="Your Email" required>
-          <textarea name="message" placeholder="Your Message" rows="6" required></textarea>
-          <button type="submit">Send Message</button>
-        </form>
-      </div>
+    <!-- Navbar Links -->
+    <nav class="navbar" id="navbar">
+      <ul>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('courses') }}">Courses</a></li>
+        <li><a href="{{ url_for('services') }}">Services</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        <li><a href="{{ url_for('signup') }}" class="signup-btn">Sign Up</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-      <!-- Contact Info -->
-      <div class="contact-info">
-        <h2>Get in Touch</h2>
-        <p><strong>Email:</strong> support@educommerce.com</p>
-        <p><strong>Phone:</strong> +234 901 234 5678</p>
-        <p><strong>Address:</strong> Tai Solarin University, Ogun State</p>
+<!-- Page Header -->
+<section class="page-header">
+  <h1>Contact Us</h1>
+  <p>We’d love to hear from you! Fill out the form below or reach us directly.</p>
+</section>
 
-        <!-- Social Icons -->
-        <div class="social-icons">
-          <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
-        </div>
+<!-- Contact Section -->
+<section class="contact-page">
+  <div class="contact-container">
 
-        <!-- Google Maps Embed -->
-        <div class="map">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.6586510237736!2d3.4181466745517797!3d6.83376532331831!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b907d5f1c887b%3A0x123456789abcdef0!2sTai%20Solarin%20University%20of%20Education!5e0!3m2!1sen!2sng!4v1694160000000!5m2!1sen!2sng"
-            width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+    <!-- Contact Form -->
+    <div class="contact-form">
+      <h2>Send Us a Message</h2>
 
-      </div>
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="container mt-3">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('contact') }}">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" rows="6" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
     </div>
-  </section>
-  
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- Contact Info -->
+    <div class="contact-info">
+      <h2>Get in Touch</h2>
+      <p><strong>Email:</strong> support@educommerce.com</p>
+      <p><strong>Phone:</strong> +234 901 234 5678</p>
+      <p><strong>Address:</strong> Tai Solarin University, Ogun State</p>
+
+      <!-- Social Icons -->
+      <div class="social-icons">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+      </div>
+
+      <!-- Google Maps Embed -->
+      <div class="map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.6586510237736!2d3.4181466745517797!3d6.83376532331831!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b907d5f1c887b%3A0x123456789abcdef0!2sTai%20Solarin%20University%20of%20Education!5e0!3m2!1sen!2sng!4v1694160000000!5m2!1sen!2sng"
+          width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>
 </html>

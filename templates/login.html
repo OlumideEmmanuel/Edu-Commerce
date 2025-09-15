@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up - EduCommerce</title>
-    <link rel="icon" type="image/svg" href="/static/assets/hero-image 1.svg">
-
-
-  <!-- Stylesheet -->
+  <title>Login - EduCommerce</title>
+  <link rel="icon" type="image/svg" href="/static/assets/hero-image 1.svg">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-   <!-- Header -->
+  <!-- Header -->
   <header>
     <div class="container">
       <div class="logo">
@@ -42,33 +39,32 @@
     <h1>Log In</h1>
   </section>
 
-  <!-- Signup Form Section -->
+  <!-- Login Form Section -->
   <section class="signup-page">
     <div class="signup-container">
 
-      <!-- Flash Messages -->
+      <!-- Flash messages -->
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-          {% for category, message in messages %}
-            <div class="flash-message {{ category }}">
-              {{ message }}
-            </div>
-          {% endfor %}
+          <div class="container mt-3">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          </div>
         {% endif %}
       {% endwith %}
 
-      <form id="signup-form" class="signup-form" method="POST" action="{{ url_for('signup') }}">
-        <h2>Log in</h2>
+      <!-- Login Form -->
+      <form id="login-form" class="signup-form" method="POST" action="{{ url_for('login') }}">
+        <h2>Log In</h2>
         <input type="text" name="username" placeholder="Username" required>
-        <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-        <button type="submit">Sign Up</button>
-        <p>Do not have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+        <button type="submit">Log In</button>
+        <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
       </form>
-
-      <!-- Optional: JS message -->
-      <div id="signup-message" style="margin-top: 10px; color: red;"></div>
 
     </div>
   </section>

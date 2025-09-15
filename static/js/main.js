@@ -63,42 +63,42 @@ window.addEventListener('click', (e) => {
 const API_BASE = "https://educommerce-backend.onrender.com"; // ✅ Render backend
 
 // Signup
-async function handleSignup(e) {
-  e.preventDefault();
-  const formData = new FormData(e.target);
+// async function handleSignup(e) {
+//   e.preventDefault();
+//   const formData = new FormData(e.target);
 
-  try {
-    const res = await fetch(`${API_BASE}/signup`, {
-      method: "POST",
-      body: formData
-    });
+//   try {
+//     const res = await fetch(`${API_BASE}/signup`, {
+//       method: "POST",
+//       body: formData
+//     });
 
-    const data = await res.text();
-    alert(data);
-  } catch (err) {
-    console.error(err);
-    alert("Signup failed. Please try again.");
-  }
-}
+//     const data = await res.text();
+//     alert(data);
+//   } catch (err) {
+//     console.error(err);
+//     alert("Signup failed. Please try again.");
+//   }
+// }
 
 // Login
-async function handleLogin(e) {
-  e.preventDefault();
-  const formData = new FormData(e.target);
+// async function handleLogin(e) {
+//   e.preventDefault();
+//   const formData = new FormData(e.target);
 
-  try {
-    const res = await fetch(`${API_BASE}/login`, {
-      method: "POST",
-      body: formData
-    });
+//   try {
+//     const res = await fetch(`${API_BASE}/login`, {
+//       method: "POST",
+//       body: formData
+//     });
 
-    const data = await res.text();
-    alert(data);
-  } catch (err) {
-    console.error(err);
-    alert("Login failed. Please try again.");
-  }
-}
+//     const data = await res.text();
+//     alert(data);
+//   } catch (err) {
+//     console.error(err);
+//     alert("Login failed. Please try again.");
+//   }
+// }
 
 // Load Courses
 async function loadCourses() {

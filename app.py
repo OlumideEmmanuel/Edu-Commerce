@@ -1,46 +1,25 @@
-from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from flask_cors import CORS
-import os
+from werkzeug.security import generate_password_hash, check_password_hash
 
-# ---------------- Initialize App ---------------- #
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your_secret_key_here')  # safer for deployment
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///site.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # prevent warning
+app.secret_key = "super_secret_key"  # change in production
 
-# ---------------- Initialize Extensions ---------------- #
+# ---------------- DATABASE SETUP ---------------- #
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-login_manager.login_message_category = 'info'
-CORS(app)  # Allow frontend to call backend
 
-# ---------------- User Loader ---------------- #
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-# ---------------- Database Models ---------------- #
-class User(db.Model, UserMixin):
+# ---------------- USER MODEL ---------------- #
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(128), nullable=False)
 
-    def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
-
-class Course(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Integer, nullable=False)
-
-    def __repr__(self):
-        return f"Course('{self.title}', {self.price})"
+# Create tables
+with app.app_context():
+    db.create_all()
 
 # ---------------- Routes ---------------- #
 @app.route("/")
@@ -63,98 +42,119 @@ def services():
 def about():
     return render_template("about.html")
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        message = request.form.get("message")
+
+        # Here you can process the message (save to DB, send email, etc.)
+        # For now, we'll just flash a success message
+        flash(f"✅ Thank you {name}, your message has been sent!", "success")
+        return redirect(url_for("contact"))
+
     return render_template("contact.html")
 
-# ---------------- Signup Route ---------------- #
-@app.route("/signup", methods=['GET', 'POST'])
+
+# ---------- SIGNUP ---------- #
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
+    if request.method == "POST":
+        username = request.form["username"]
+        email = request.form["email"]
+        password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
 
-        if password != confirm_password:
-            flash("Passwords do not match. Please try again.", 'danger')
-            return redirect(url_for('signup'))
-
+        # Check if username/email already exists
         if User.query.filter_by(username=username).first():
-            flash('Username already taken. Please choose another.', 'warning')
-            return redirect(url_for('signup'))
+            flash("❌ Username already taken. Please log in.", "danger")
+            return redirect(url_for("signup"))
 
         if User.query.filter_by(email=email).first():
-            flash('Email already registered. Please login.', 'warning')
-            return redirect(url_for('login'))
+            flash("❌ Email already registered. Please log in.", "danger")
+            return redirect(url_for("signup"))
 
-        hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
-        user = User(username=username, email=email, password=hashed_pw)
-        db.session.add(user)
+        # Check password
+        if password != confirm_password:
+            flash("❌ Passwords do not match.", "danger")
+            return redirect(url_for("signup"))
+
+        if len(password) < 6:
+            flash("❌ Password must be at least 6 characters.", "danger")
+            return redirect(url_for("signup"))
+
+        # Create user
+        hashed_pw = generate_password_hash(password)
+        new_user = User(username=username, email=email, password=hashed_pw)
+        db.session.add(new_user)
         db.session.commit()
 
-        flash('Account created successfully! You can now log in.', 'success')
-        return redirect(url_for('login'))
+        flash("✅ Sign up successful! Please log in.", "success")
+        return redirect(url_for("login"))
 
     return render_template("signup.html")
 
-# ---------------- Login Route ---------------- #
-@app.route("/login", methods=['GET', 'POST'])
+
+# ---------- LOGIN ---------- #
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        user = User.query.filter_by(email=email).first()
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        user = User.query.filter_by(username=username).first()
 
         if not user:
-            flash("You don't have an account. Please sign up.", 'danger')
-            return redirect(url_for('signup'))
+            flash("❌ You don’t have an account. Please sign up.", "danger")
+            return redirect(url_for("signup"))
 
-        if not bcrypt.check_password_hash(user.password, password):
-            flash('Incorrect password. Please try again.', 'danger')
-            return redirect(url_for('login'))
-
-        login_user(user)
-        flash(f'Welcome back, {user.username}!', 'success')
-        return redirect(url_for('dashboard'))
+        if check_password_hash(user.password, password):
+            session["user"] = user.username
+            flash(f"✅ Welcome, {user.username}!", "success")
+            return redirect(url_for("dashboard"))
+        else:
+            flash("❌ Incorrect password. Try again.", "danger")
+            return redirect(url_for("login"))
 
     return render_template("login.html")
 
-# ---------------- Dashboard Route ---------------- #
+
+# ---------- DASHBOARD ---------- #
 @app.route("/dashboard")
-@login_required
 def dashboard():
-    return render_template("dashboard.html", name=current_user.username)
+    if "user" in session:
+        return render_template("dashboard.html", username=session["user"])
+    else:
+        flash("⚠️ You must log in first.", "warning")
+        return redirect(url_for("login"))
 
-# ---------------- Logout Route ---------------- #
+
+# ---------- LOGOUT ---------- #
 @app.route("/logout")
-@login_required
 def logout():
-    logout_user()
-    flash('You have been logged out.', 'info')
-    return redirect(url_for('index'))
+    session.pop("user", None)
+    flash("👋 You have been logged out.", "info")
+    return redirect(url_for("login"))
 
-# ---------------- API Routes ---------------- #
-@app.route("/api/courses")
-def api_courses():
-    # Ensure table exists before querying
-    try:
-        courses = Course.query.all()
-        return jsonify([{"id": c.id, "title": c.title, "price": c.price} for c in courses])
-    except Exception as e:
-        return jsonify({"error": "Database table not found. Make sure to create the table first.", "details": str(e)}), 500
 
-@app.route("/api/user")
-@login_required
-def api_user():
-    return jsonify({
-        "id": current_user.id,
-        "username": current_user.username,
-        "email": current_user.email
-    })
+# ---------- EXTRA PAGES PLACEHOLDER ---------- #
+# @app.route("/courses")
+# def courses():
+#     return "<h1>Courses Page</h1>"
 
-# ---------------- Run App ---------------- #
+# @app.route("/services")
+# def services():
+#     return "<h1>Services Page</h1>"
+
+# @app.route("/about")
+# def about():
+#     return "<h1>About Us Page</h1>"
+
+# @app.route("/contact")
+# def contact():
+#     return "<h1>Contact Page</h1>"
+
+
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()  # ensures DB tables exist before any requests
     app.run(debug=True)

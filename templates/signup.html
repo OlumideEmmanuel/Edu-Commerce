@@ -4,15 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up - EduCommerce</title>
-    <link rel="icon" type="image/svg" href="/static/assets/hero-image 1.svg">
+  <link rel="icon" type="image/svg" href="/static/assets/hero-image 1.svg">
 
-
-  <!-- Stylesheet -->
+  <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/signin.css') }}">
+  
+  <!-- FontAwesome -->
   <link 
     rel="stylesheet" 
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   >
+
+  <!-- Bootstrap CSS (needed for flash alerts) -->
+  <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+    rel="stylesheet">
 </head>
 <body>
 
@@ -48,12 +54,16 @@
   <!-- Signup Form Section -->
   <section class="signup-page">
     <div class="signup-container">
-      <!-- Display Flash Messages -->
+
+      <!-- Flash messages -->
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-          <div class="flash-messages">
+          <div class="container mt-3">
             {% for category, message in messages %}
-              <div class="flash {{ category }}">{{ message }}</div>
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
             {% endfor %}
           </div>
         {% endif %}
@@ -110,7 +120,8 @@
     </div>
   </footer>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
