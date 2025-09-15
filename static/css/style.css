@@ -142,17 +142,24 @@ header .container {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero-container {
+  .hero {
+    padding: 2rem 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero .hero-container {
     flex-direction: column-reverse;
     text-align: center;
+    gap: 1rem;
   }
-  .hero-text, .hero-image {
-    max-width: 100%;
+  .hero .hero-text, .hero .hero-image {
+    max-width: 70%;
   }
-  .hero-text h1 {
+  .hero .hero-text h1 {
     font-size: 2rem;
   }
-  .hero-text p {
+  .hero .hero-text p {
     font-size: 1rem;
   }
 }
@@ -437,7 +444,29 @@ header .container {
 /* Responsive */
 @media (max-width: 768px) {
   .testimonials {
-    padding: 3rem 5%;
+    padding: 5rem 10%;
+    background-color: #fdf7f0;
+    position: relative;
+  }
+  .testimonials .testimonial-slider .testimonial-card {
+    min-width: 100%;
+    flex-shrink: 5;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.8s ease, opacity 0.8s ease, box-shadow 0.3s;
+    opacity: 0;
+    transform: translateY(30px);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .testimonials .testimonial-slider .testimonial-card p, .testimonials .testimonial-slider .testimonial-card h4, .testimonials .testimonial-slider .testimonial-card span {
+    opacity: 0;
+    transform: translateY(20px);
+    padding-right: 2rem;
   }
   .testimonials h2 {
     font-size: 2rem;

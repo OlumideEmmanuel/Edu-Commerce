@@ -157,13 +157,19 @@ header .container {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .hero{
+    padding: 2rem 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .hero-container {
         flex-direction: column-reverse;
         text-align: center;
+        gap: 1rem;
     }
 
     .hero-text, .hero-image {
-        max-width: 100%;
+        max-width: 70%;
     }
 
     .hero-text h1 {
@@ -173,6 +179,7 @@ header .container {
     .hero-text p {
         font-size: 1rem;
     }
+}
 }
 
 /* Animations Keyframes */
@@ -505,9 +512,37 @@ header .container {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .testimonials {
-    padding: 3rem 5%;
+.testimonials {
+  padding: 5rem 10%;
+  background-color: #fdf7f0;
+  position: relative;
+
+  .testimonial-slider {
+
+    .testimonial-card {
+      min-width: 100%;
+      flex-shrink: 5;
+      background-color: #fff;
+      border-radius: 10px;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.8s ease, opacity 0.8s ease, box-shadow 0.3s;
+      opacity: 0;
+      transform: translateY(30px);
+      position: absolute;
+      top: 0;
+      left: 0;
+
+
+      p, h4, span {
+        opacity: 0;
+        transform: translateY(20px);
+        padding-right: 2rem;
+      }
+    }
   }
+}
 
   .testimonials h2 {
     font-size: 2rem;
