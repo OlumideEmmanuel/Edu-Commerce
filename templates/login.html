@@ -39,8 +39,7 @@
 
   <!-- Page Header -->
   <section class="page-header">
-    <h1>Create an Account</h1>
-    <p>Sign up to start learning with EduCommerce!</p>
+    <h1>Log In</h1>
   </section>
 
   <!-- Signup Form Section -->
@@ -59,13 +58,13 @@
       {% endwith %}
 
       <form id="signup-form" class="signup-form" method="POST" action="{{ url_for('signup') }}">
-        <h2>Sign Up</h2>
+        <h2>Log in</h2>
         <input type="text" name="username" placeholder="Username" required>
         <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Password" required>
         <input type="password" name="confirm_password" placeholder="Confirm Password" required>
         <button type="submit">Sign Up</button>
-        <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        <p>Do not have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
       </form>
 
       <!-- Optional: JS message -->
