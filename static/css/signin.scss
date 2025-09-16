@@ -8,6 +8,8 @@ $light-gray: #f9f9f9;
     text-decoration: none;
   }
 }
+
+
 /* Header & Navbar */
 header {
   background-color: #ffffff;
@@ -69,8 +71,23 @@ header .container {
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   }
 
+  .navbar ul li a {
+  text-decoration: none;
+  font-size: 11px;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+  .logo a {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ff7f50;
+  text-decoration: none;
+}
+
   .navbar ul {
-    flex-direction: column;
+    flex-direction: flex;
     gap: 1rem;
     padding: 1rem;
   }
@@ -83,6 +100,7 @@ header .container {
     display: block;
   }
 }
+
 
 /* Page Header */
 .page-header {
